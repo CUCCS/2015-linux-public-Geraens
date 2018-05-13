@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "Ubuntu 14.04 文件服务器--samba的安装和配置"
+echo "更新源列表"
+sudo apt-get update
+echo "安装samba"
+sudo apt-get -y install samba samba-common
+echo "关闭防火墙"
+service iptables stop
+echo "新建共享目录并设置权限"
+sudo mkdir /home/share
+sudo chmod 777 /home/share
+echo "新建访问共享资源的用户和设置密码"
+sudo useradd smbuse
+sudo smbpasswd -a smbuser
+echo "重启samba服务"
+sudo service smbd restart
