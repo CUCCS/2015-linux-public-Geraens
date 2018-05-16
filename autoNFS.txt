@@ -1,0 +1,20 @@
+#/bin/bash
+
+sudo apt-get -y update
+sudo apt-get -y install nfs-kernel-server
+
+sudo mkdir -p /var/nfs/Geraens_public
+sudo mkdir -p /var/nfs/Geraens_gernel
+sudo mkdir -p /var/nfs/Geraens
+sudo chown nobody:nogroup /var/nfs/Geraens_gernel
+
+(sudo cat <<EOF
+/var/nfs/Geraens_gernel 192.168.56.0/24(rw,insecure,sync,no_subtree_check)
+/var/nfs/Geraens_public *(ro,insecure,sync,no_subtree_check)
+/var/nfs/Geraens 192.168.56.105(rw,insecure,no_root_squash,sync,no_subtree_check)
+EOF
+)> /etc/exports
+
+sudo exportfs -r
+sudo /etc/init.d/nfs-kernel-server start
+~
